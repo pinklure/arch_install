@@ -1,0 +1,17 @@
+#!/bin/bash
+
+Headless_Count=`swaymsg -t get_outputs | grep 'HEADLESS'|wc -l`
+
+if [ $Headless_Count != "0" ]
+then
+	echo "Already Launched"
+	killall -s 9 wayvnc >>/dev/null 2>&1
+	# wayvnc --max-fps=15 >>/dev/null &
+	wayvnc >>/dev/null &
+else
+	echo "Not Launched"
+	swaymsg create_output HEADLESS-1
+	killall -s 9 wayvnc >>/dev/null 2>&1
+	# wayvnc --max-fps=15 >>/dev/null &
+	wayvnc >>/dev/null &
+fi

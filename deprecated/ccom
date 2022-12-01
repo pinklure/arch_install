@@ -1,0 +1,93 @@
+#!/bin/bash
+
+if [ $# -lt 0 ]
+then
+	echo "Please input Arguments"
+	exit -1
+fi
+
+Files=
+Language="c"
+Libs=
+Output=
+Run=0
+Cmd=" -g -Wall "
+
+parseFileName(){
+	fileName=$1
+	fileNameNoExt=${fileName%.*}
+	Ext=${fileName##*.}
+	
+	if [ $Ext = $fileNameNoExt ]
+	then
+		echo "input file no Extension"
+		exit -1
+	fi
+
+	if [ -z $Files ]
+	then
+		Output=$fileNameNoExt
+	fi
+	
+	Files="$Files $fileName"
+
+	if [ $Ext = "cc" ] || [ $Ext = "cpp" ]
+	then
+		Language="c++"
+	fi
+
+}
+
+parseLinkLib(){
+	libname=$1
+	Libs="$Libs -l $libname"
+}
+
+
+
+while getopts "f:l:R" opt; do
+	case $opt in
+		f)
+			parseFileName $OPTARG
+			;;
+		l)
+			parseLinkLib $OPTARG
+			;;
+		R)
+			Run=1
+			;;
+		\?)
+			echo "Invalid Option: -$OPTARG"
+			exit -1
+			;;
+	esac
+done
+
+
+if [ $Language = "c++" ]
+then
+	Cmd="g++ $Cmd"
+else
+	Cmd="gcc $Cmd"
+fi
+
+
+
+Cmd="$Cmd $Files $Libs -o $Output"
+
+# if [ $Run -eq 1 ]
+# then
+# 	Cmd="$Cmd && ./$Output"
+# fi
+
+#echo $Cmd
+
+$Cmd
+
+if [ $? -ne 0 ]
+then
+	exit -1
+elif [ $Run -eq 1 ]
+then
+	./$Output && rm ./$Output
+fi
