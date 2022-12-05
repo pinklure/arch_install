@@ -21,7 +21,7 @@ Exec install python python-pip nodejs npm;
 Exec install tar zip unzip unrar;
 Exec install ntfs-3g fuse gvfs;
 Exec install tree
-Exec install bcc bcc-tools bpftrace sysstat
+Exec install bcc bcc-tools bpftrace sysstat perf
 
 # Desktop
 Exec install sway swayidle waybar wdisplays dunst;
@@ -33,6 +33,7 @@ Exec install picom brightnessctl kanshi;
 Exec install ttf-dejavu ttf-roboto noto-fonts nerd-fonts-complete;
 Exec install wqy-bitmapfont wqy-microhei wqy-microhei-lite wqy-zenhei;
 Exec install noto-fonts-cjk adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts;
+Exec install qemu libvirt dmidecode dnsmasq bridge-utils
 
 echo "Please install [swaylock-effects rofi-lbonn-wayland-only-git] by AUR, [cmake-language-server python-language-server] by Python3-pip";
 
